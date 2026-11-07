@@ -1,0 +1,10 @@
+{
+  "name": "pizzadough",
+  "private": true,
+  "type": "module",
+  "description": "Calculateur de pâte à pizza (site statique, sans dépendance)",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "start": "python3 -m http.server 8000"
+  }
+}

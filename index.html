@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pâte à pizza</title>
+  <meta name="description" content="Calculateur de pâte à pizza napolitaine : quantités, poolish, biga, planning et mode cuisine.">
+  <meta name="theme-color" content="#c8402a">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <h1>🍕 Pâte à pizza</h1>
+      <p class="lead">Combien de pizzas, de quelle taille ? Le reste, on le calcule.</p>
+    </div>
+  </header>
+
+  <main class="wrap grid">
+    <form id="form" class="col-inputs" autocomplete="off" novalidate>
+      <section class="card">
+        <div class="card-head">
+          <h2>Tes pizzas</h2>
+          <div class="presets" role="group" aria-label="Préréglages">
+            <button type="button" class="chip" data-preset="fgc">Napolitaine FGC</button>
+            <button type="button" class="chip" data-preset="neo">Napolitaine 65 %</button>
+            <button type="button" class="chip" data-preset="romana">Romaine</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="count">Nombre de pizzas</label>
+          <div class="stepper">
+            <button type="button" data-step="count:-1" aria-label="Une pizza de moins">−</button>
+            <input id="count" name="count" type="number" inputmode="numeric" min="1" max="100" step="1" value="1">
+            <button type="button" data-step="count:1" aria-label="Une pizza de plus">+</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="ballWeight">Poids d'un pâton <span class="unit">g</span></label>
+          <div class="stepper">
+            <button type="button" data-step="ballWeight:-10" aria-label="10 g de moins">−</button>
+            <input id="ballWeight" name="ballWeight" type="number" inputmode="numeric" min="100" max="600" step="5" value="250">
+            <button type="button" data-step="ballWeight:10" aria-label="10 g de plus">+</button>
+          </div>
+          <p class="hint">200 g = petite pizza, 250 g = classique, 300 g = grande.</p>
+        </div>
+
+        <div class="field">
+          <label for="hydration">Hydratation <span class="unit">%</span> <output id="hydrationOut" for="hydration">57</output></label>
+          <input id="hydration" name="hydration" type="range" min="50" max="80" step="1" value="57">
+          <p class="hint">Quantité d'eau par rapport à la farine. 57 % est la valeur de base, facile à travailler. Plus d'eau donne une pâte plus légère mais plus collante.</p>
+        </div>
+
+        <details class="more">
+          <summary>Sel et levure</summary>
+          <div class="field">
+            <label for="saltPct">Sel <span class="unit">% de la farine</span></label>
+            <input id="saltPct" name="saltPct" type="number" inputmode="decimal" min="0" max="5" step="0.1" value="3">
+          </div>
+          <div class="field">
+            <label for="yeastType">Type de levure</label>
+            <select id="yeastType" name="yeastType">
+              <option value="fresh">Levure fraîche de boulanger</option>
+              <option value="dry">Levure sèche active</option>
+              <option value="instant">Levure sèche instantanée</option>
+            </select>
+          </div>
+          <fieldset class="field">
+            <legend>Quantité de levure</legend>
+            <label class="radio"><input type="radio" name="yeastMode" value="classic" checked> Classique : 0,2 % de levure fraîche</label>
+            <label class="radio"><input type="radio" name="yeastMode" value="auto"> Ajustée au temps de fermentation du planning</label>
+            <label class="radio"><input type="radio" name="yeastMode" value="custom"> Personnalisée :
+              <input id="yeastPct" name="yeastPct" type="number" inputmode="decimal" min="0.01" max="3" step="0.01" value="0.2" class="inline"> % de levure fraîche</label>
+          </fieldset>
+        </details>
+      </section>
+
+      <section class="card">
+        <h2>Méthode</h2>
+        <div class="segmented" role="radiogroup" aria-label="Méthode">
+          <label><input type="radio" name="method" value="direct" checked><span>Directe</span></label>
+          <label><input type="radio" name="method" value="poolish"><span>Poolish</span></label>
+          <label><input type="radio" name="method" value="biga"><span>Biga</span></label>
+        </div>
+        <p class="hint" id="methodHint"></p>
+        <div class="field" id="shareField" hidden>
+          <label for="flourShare">Part de la farine dans le préferment <span class="unit">%</span> <output id="flourShareOut" for="flourShare">30</output></label>
+          <input id="flourShare" name="flourShare" type="range" min="10" max="100" step="5" value="30">
+        </div>
+      </section>
+
+      <section class="card" id="planning">
+        <h2>Planning</h2>
+        <div class="field">
+          <label for="mealTime">On mange à</label>
+          <input id="mealTime" name="mealTime" type="datetime-local">
+        </div>
+        <div class="row">
+          <div class="field" id="pfHoursField" hidden>
+            <label for="prefermentHours">Préferment <span class="unit">h</span></label>
+            <input id="prefermentHours" name="prefermentHours" type="number" inputmode="decimal" min="1" max="48" step="0.5" value="14">
+          </div>
+          <div class="field">
+            <label for="bulkHours">Pointage <span class="unit">h</span></label>
+            <input id="bulkHours" name="bulkHours" type="number" inputmode="decimal" min="0.5" max="96" step="0.5" value="2">
+          </div>
+          <div class="field">
+            <label for="proofHours">Apprêt <span class="unit">h</span></label>
+            <input id="proofHours" name="proofHours" type="number" inputmode="decimal" min="0.5" max="24" step="0.5" value="4">
+          </div>
+          <div class="field">
+            <label for="roomTemp">Pièce <span class="unit">°C</span></label>
+            <input id="roomTemp" name="roomTemp" type="number" inputmode="decimal" min="10" max="35" step="1" value="22">
+          </div>
+        </div>
+        <label class="check"><input type="checkbox" id="fridge" name="fridge"> Pointage au réfrigérateur (fermentation longue, plus de goût)</label>
+      </section>
+    </form>
+
+    <div class="col-results">
+      <section class="card results" aria-live="polite">
+        <h2>Il te faut</h2>
+        <div id="results"></div>
+        <p class="hint" id="yeastNote"></p>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h2>Étapes</h2>
+          <span class="badge" id="totalTime"></span>
+        </div>
+        <ol class="timeline" id="timeline"></ol>
+        <div class="actions">
+          <button type="button" class="btn primary" id="startCook">Mode cuisine</button>
+          <button type="button" class="btn" id="downloadIcs">Ajouter à l'agenda</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="wrap foot">
+    <p>D'après le <a href="https://www.frenchguycooking.com/pizzadough" rel="noopener">calculateur de French Guy Cooking</a> (pâte directe : mêmes formules). Fonctionne hors ligne une fois la page chargée.</p>
+  </footer>
+
+  <dialog id="cook" class="cook" aria-labelledby="cookTitle">
+    <div class="cook-inner">
+      <div class="cook-top">
+        <span id="cookProgress" class="badge"></span>
+        <button type="button" class="icon-btn" id="cookClose" aria-label="Fermer le mode cuisine">✕</button>
+      </div>
+      <p class="cook-when" id="cookWhen"></p>
+      <h2 id="cookTitle"></h2>
+      <p id="cookDetail" class="cook-detail"></p>
+      <ul id="cookIngredients" class="cook-ingredients"></ul>
+      <div class="timer" id="timer">
+        <div class="timer-value" id="timerValue">00:00</div>
+        <div class="timer-actions">
+          <button type="button" class="btn primary" id="timerToggle">Démarrer le minuteur</button>
+          <button type="button" class="btn" id="timerReset">Réinitialiser</button>
+        </div>
+      </div>
+      <div class="cook-nav">
+        <button type="button" class="btn" id="cookPrev">← Précédent</button>
+        <button type="button" class="btn primary" id="cookNext">Suivant →</button>
+      </div>
+      <p class="hint" id="wakeNote"></p>
+    </div>
+  </dialog>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
