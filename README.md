@@ -2,16 +2,16 @@
 
 Calculateur de pâte à pizza : tu indiques combien de pizzas tu veux et de quelle taille, et le site calcule le reste.
 
-Il reprend le [calculateur de French Guy Cooking](https://www.frenchguycooking.com/pizzadough), avec les **mêmes formules** pour la pâte directe, et ajoute :
+Fonctionnalités :
 
 - **Poolish et biga** : quantités du préferment et de la pâte finale, avec des totaux identiques.
 - **Sel et levure réglables** : levure fraîche, sèche active ou instantanée. La quantité peut être classique (0,2 %), personnalisée ou estimée selon la durée et la température de fermentation.
 - **Planning** : à partir de l'heure du repas, le site calcule l'heure de chaque étape. Les étapes peuvent être exportées vers ton agenda (`.ics`).
 - **Mode cuisine** : une étape à la fois en plein écran, avec les quantités, un minuteur et une alarme. L'écran reste allumé.
-- **Préréglages** : Napolitaine FGC (57 %), Napolitaine 65 % au réfrigérateur, Romaine.
+- **Préréglages** : Napolitaine classique (57 %), Napolitaine 65 % au réfrigérateur, Romaine.
 - **Hors ligne** : le site s'installe sur le téléphone (PWA) et fonctionne sans connexion. Les derniers réglages sont gardés.
 
-## Les formules d'origine
+## Les formules
 
 Avec `N` pizzas, des pâtons de `P` grammes et une hydratation `H` % :
 
@@ -47,4 +47,4 @@ Il faut l'activer une fois : **Settings → Pages → Source : GitHub Actions**.
 | `js/cook.js` | Mode cuisine (minuteur, écran allumé) |
 | `js/app.js` | Formulaire, affichage, sauvegarde des réglages |
 | `sw.js` | Cache hors ligne. **Change `VERSION` à chaque mise à jour.** |
-| `tests/` | Tests `node:test`, dont la parité avec le site d'origine |
+| `tests/` | Tests `node:test` des calculs et du planning |

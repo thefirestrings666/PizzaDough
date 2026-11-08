@@ -1,6 +1,6 @@
 // Service worker : met le site en cache pour qu'il fonctionne hors ligne.
 // Pense à changer VERSION à chaque mise en ligne d'une nouvelle version.
-const VERSION = 'v1';
+const VERSION = 'v2';
 const CACHE = `pizzadough-${VERSION}`;
 const FILES = [
   './', 'index.html', 'css/style.css',

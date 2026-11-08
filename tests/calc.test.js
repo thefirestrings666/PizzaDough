@@ -2,8 +2,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { directDough, roundDough, estimateYeastPct, estimateYeastPctPhases, withPreferment, round } from '../js/calc.js';
 
-// Implémentation de référence copiée du site d'origine.
-function original(B7, B8, B9) {
+// Implémentation de référence de la formule, écrite indépendamment de calc.js.
+function reference(B7, B8, B9) {
   const flour = round((B7 * B8) / (1 + B9 / 100 + 0.03 + 0.002), 1);
   return {
     flour,
@@ -13,7 +13,7 @@ function original(B7, B8, B9) {
   };
 }
 
-test('parité avec French Guy Cooking (valeurs par défaut)', () => {
+test('quantités de référence (valeurs par défaut)', () => {
   const r = roundDough(directDough({ count: 1, ballWeight: 250, hydration: 57 }));
   assert.equal(r.flour, 156.1);
   assert.equal(r.water, 89);
@@ -21,16 +21,16 @@ test('parité avec French Guy Cooking (valeurs par défaut)', () => {
   assert.equal(round(r.yeast, 1), 0.3);
 });
 
-test('parité sur une grille de valeurs', () => {
+test('formule de référence sur une grille de valeurs', () => {
   for (const n of [1, 2, 4, 7, 12]) {
     for (const w of [180, 200, 250, 280, 300]) {
       for (const h of [50, 55, 57, 60, 65, 70]) {
         const r = roundDough(directDough({ count: n, ballWeight: w, hydration: h }));
-        const o = original(n, w, h);
+        const o = reference(n, w, h);
         assert.equal(r.flour, o.flour, `farine ${n}×${w}@${h}`);
         assert.equal(r.water, o.water, `eau ${n}×${w}@${h}`);
         assert.equal(r.salt, o.salt, `sel ${n}×${w}@${h}`);
-        // Levure affichée au centième (plus précis que l'original, arrondi au dixième).
+        // Levure affichée au centième (la référence arrondit au dixième).
         assert.ok(Math.abs(r.yeast - o.yeast) <= 0.0501, `levure ${n}×${w}@${h}`);
       }
     }

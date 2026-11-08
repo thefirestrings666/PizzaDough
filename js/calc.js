@@ -1,12 +1,11 @@
 // Calculs de pâte à pizza — fonctions pures, sans accès au DOM.
 //
-// La pâte directe reprend exactement la formule du calculateur de
-// French Guy Cooking (https://www.frenchguycooking.com/pizzadough) :
+// Pâte directe, formule classique de la pâte napolitaine :
 //   farine = N × poids / (1 + hydratation + 3 % sel + 0,2 % levure)
 // Toutes les autres quantités sont des pourcentages de la farine
 // (« pourcentages du boulanger »).
 
-/** Arrondi à `precision` décimales, comme la fonction round() du site d'origine. */
+/** Arrondi à `precision` décimales. */
 export function round(number, precision = 1) {
   const factor = 10 ** precision;
   return Math.round(number * factor) / factor;
@@ -51,7 +50,7 @@ export function directDough({ count, ballWeight, hydration, saltPct = 3, yeastPc
 }
 
 /**
- * Arrondit les quantités comme le site d'origine : la farine à 0,1 g près,
+ * Arrondit les quantités : la farine à 0,1 g près,
  * puis l'eau, le sel et la levure recalculés à partir de cette farine
  * arrondie. La levure est arrondie au centième, car les quantités sont petites.
  */

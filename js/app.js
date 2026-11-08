@@ -11,7 +11,7 @@ const $ = (id) => document.getElementById(id);
 const form = $('form');
 
 const PRESETS = {
-  fgc: { count: null, ballWeight: 250, hydration: 57, saltPct: 3, yeastMode: 'classic', method: 'direct', bulkHours: 2, proofHours: 4, fridge: false },
+  classic: { count: null, ballWeight: 250, hydration: 57, saltPct: 3, yeastMode: 'classic', method: 'direct', bulkHours: 2, proofHours: 4, fridge: false },
   neo: { count: null, ballWeight: 270, hydration: 65, saltPct: 2.8, yeastMode: 'auto', method: 'direct', bulkHours: 24, proofHours: 4, fridge: true },
   romana: { count: null, ballWeight: 180, hydration: 60, saltPct: 2.5, yeastMode: 'auto', method: 'direct', bulkHours: 2, proofHours: 6, fridge: false },
 };
